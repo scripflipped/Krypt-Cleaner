@@ -1,0 +1,83 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  font-family: 'Chakra Petch', Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(900px circle at 10% -10%, rgba(168, 85, 247, 0.16), transparent 60%),
+    radial-gradient(800px circle at 110% 10%, rgba(99, 102, 241, 0.12), transparent 60%),
+    #0a0a0f;
+  background-attachment: fixed;
+  user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.28);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+.app-drag {
+  -webkit-app-region: drag;
+}
+.app-no-drag {
+  -webkit-app-region: no-drag;
+}
+
+@layer components {
+  .krypt-card {
+    @apply rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-sm;
+  }
+  .krypt-card-strong {
+    @apply rounded-2xl bg-white/[0.035] border border-white/10 backdrop-blur-md shadow-glow-sm;
+  }
+  .krypt-wordmark {
+    @apply bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent;
+  }
+  .krypt-gradient-btn {
+    background: linear-gradient(90deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  }
+  .grid-overlay {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+}
+
+.title-glow {
+  text-shadow: 0 0 32px rgba(168, 85, 247, 0.25);
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 1.4s linear infinite;
+}
