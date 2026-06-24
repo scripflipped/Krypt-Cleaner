@@ -109,10 +109,6 @@ const api = {
   settings: {
     get: (): Promise<AppSettings> => invoke('settings:get'),
     completeOnboarding: (): Promise<AppSettings> => invoke('settings:completeOnboarding'),
-    setStartup: (opts: {
-      launchOnStartup?: boolean;
-      startMinimized?: boolean;
-    }): Promise<AppSettings> => invoke('settings:setStartup', opts),
     setKryptUsername: (username: string): Promise<AppSettings> =>
       invoke('settings:setKryptUsername', username),
   },

@@ -11,8 +11,6 @@ const DEFAULTS: AppSettings = {
   lifetimeBytesFreed: 0,
   cleanHistory: [],
   lastSelection: [],
-  launchOnStartup: true,
-  startMinimized: true,
   kryptUsername: '',
 };
 

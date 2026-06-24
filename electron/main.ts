@@ -94,9 +94,7 @@ function createWindow(): void {
   });
   mainWindow.webContents.session.setPermissionRequestHandler((_wc, _perm, cb) => cb(false));
 
-  const startHidden =
-    wasRelaunchedMinimized() ||
-    (wasLaunchedAtStartup() && settingsStore.load().startMinimized);
+  const startHidden = wasRelaunchedMinimized() || wasLaunchedAtStartup();
   mainWindow.once('ready-to-show', () => {
     if (!startHidden) mainWindow?.show();
   });
@@ -153,7 +151,7 @@ function createTray(): void {
 }
 
 app.whenReady().then(() => {
-  applyStartup(settingsStore.load().launchOnStartup);
+  applyStartup(true);
   registerIpc();
   createWindow();
   createTray();

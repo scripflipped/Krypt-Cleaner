@@ -241,7 +241,5 @@ export interface AppSettings {
   lifetimeBytesFreed: number;
   cleanHistory: CleanHistoryEntry[];
   lastSelection: string[];
-  launchOnStartup: boolean;
-  startMinimized: boolean;
   kryptUsername: string;
 }

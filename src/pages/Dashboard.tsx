@@ -6,7 +6,6 @@ import {
   Gauge,
   HardDrive,
   HeartPulse,
-  Power,
   Search,
   Sparkles,
   ShieldCheck,
@@ -23,7 +22,6 @@ import { useToast } from '@/components/ui/Toast';
 import { useLiveMetrics, useSystemInfo } from '@/hooks/useSystem';
 import { useCleaner } from '@/state/cleaner';
 import { formatBytes, formatGB, formatRelative, formatUptime } from '@/lib/format';
-import { cn } from '@/lib/cn';
 import type { Route } from '@/App';
 
 export function Dashboard({ onNavigate }: { onNavigate: (r: Route) => void }) {
@@ -70,15 +68,6 @@ export function Dashboard({ onNavigate }: { onNavigate: (r: Route) => void }) {
       toast.error('Could not relaunch as Administrator', (e as Error).message);
     } finally {
       setElevating(false);
-    }
-  };
-
-  const setStartup = async (patch: { launchOnStartup?: boolean; startMinimized?: boolean }) => {
-    setSettings((s) => (s ? { ...s, ...patch } : s));
-    try {
-      setSettings(await window.krypt.settings.setStartup(patch));
-    } catch (e) {
-      toast.error('Could not update startup setting', (e as Error).message);
     }
   };
 
@@ -242,29 +231,6 @@ export function Dashboard({ onNavigate }: { onNavigate: (r: Route) => void }) {
 
       <Card className="p-6">
         <CardHeader
-          icon={<Power size={16} />}
-          title="Startup"
-          subtitle="Keep Krypt ready every time you boot. Discord Rich Presence stays on automatically while the app runs."
-        />
-        <div className="space-y-1">
-          <ToggleRow
-            title="Launch on Windows startup"
-            desc="Open Krypt Cleaner automatically when you sign in to Windows."
-            checked={!!settings?.launchOnStartup}
-            onChange={() => setStartup({ launchOnStartup: !settings?.launchOnStartup })}
-          />
-          <ToggleRow
-            title="Start minimized"
-            desc="Boot quietly into the taskbar instead of opening the window."
-            checked={!!settings?.startMinimized}
-            disabled={!settings?.launchOnStartup}
-            onChange={() => setStartup({ startMinimized: !settings?.startMinimized })}
-          />
-        </div>
-      </Card>
-
-      <Card className="p-6">
-        <CardHeader
           icon={<UserRound size={16} />}
           title="Krypt profile"
           subtitle="Share your Krypt profile through Discord Rich Presence — friends can open it straight from your status."
@@ -309,61 +275,6 @@ export function Dashboard({ onNavigate }: { onNavigate: (r: Route) => void }) {
           <Quick icon={<Sparkles size={18} />} title="Privacy" desc="Wipe usage traces." onClick={() => onNavigate('privacy')} />
         </div>
       </div>
-    </div>
-  );
-}
-
-function Toggle({
-  checked,
-  onChange,
-  disabled,
-}: {
-  checked: boolean;
-  onChange: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <button
-      role="switch"
-      aria-checked={checked}
-      disabled={disabled}
-      onClick={onChange}
-      className={cn(
-        'relative w-10 h-[22px] rounded-full transition-colors shrink-0',
-        disabled ? 'opacity-40 cursor-not-allowed' : 'cursor-pointer',
-        checked ? 'bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500' : 'bg-white/10'
-      )}
-    >
-      <span
-        className={cn(
-          'absolute top-0.5 left-0.5 w-[18px] h-[18px] rounded-full bg-white shadow transition-transform',
-          checked && 'translate-x-[18px]'
-        )}
-      />
-    </button>
-  );
-}
-
-function ToggleRow({
-  title,
-  desc,
-  checked,
-  onChange,
-  disabled,
-}: {
-  title: string;
-  desc: string;
-  checked: boolean;
-  onChange: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <div className="flex items-center justify-between gap-4 py-2">
-      <div className="min-w-0">
-        <div className="text-sm text-white/85 font-medium">{title}</div>
-        <div className="text-xs text-white/45 mt-0.5">{desc}</div>
-      </div>
-      <Toggle checked={checked} onChange={onChange} disabled={disabled} />
     </div>
   );
 }

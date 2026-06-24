@@ -41,7 +41,6 @@ import {
   restoreBackup,
 } from './system/restore';
 import { removeFiles } from './system/fsx';
-import { applyStartup } from './system/startup';
 import * as settingsStore from './system/settings-store';
 
 const logs: LogEntry[] = [];
@@ -235,24 +234,6 @@ export function registerIpc(): void {
   handle('settings:get', async (): Promise<AppSettings> => settingsStore.load());
   handle('settings:completeOnboarding', async (): Promise<AppSettings> =>
     settingsStore.patch({ onboardingComplete: true })
-  );
-  handle(
-    'settings:setStartup',
-    async (opts: {
-      launchOnStartup?: boolean;
-      startMinimized?: boolean;
-    }): Promise<AppSettings> => {
-      const next = settingsStore.patch(opts);
-      applyStartup(next.launchOnStartup);
-      log(
-        'info',
-        'startup',
-        next.launchOnStartup
-          ? `Launch on Windows startup enabled${next.startMinimized ? ' (minimized)' : ''}.`
-          : 'Launch on Windows startup disabled.'
-      );
-      return next;
-    }
   );
   handle('settings:setKryptUsername', async (username: string): Promise<AppSettings> => {
     const clean = (username || '')
